@@ -40,16 +40,16 @@ st.title("Descriptive Analysis")
 col1, col2,col3 = st.columns(3)
 
 with col1:
-    st.subheader("Distrbn. Of BMI")
     fig1, ax1 = plt.subplots(figsize=(6, 4))
     sns.histplot(df['BMI'], bins=20, kde=True, ax=ax1)
+    ax1.set_title('Distribution of BMI')
     ax1.set_xlabel('BMI')
     ax1.set_ylabel('Frequency')
     st.pyplot(fig1)
+    st.write("Higher BMI may be correlated to a higher risk of GDM. We also found higher resting heart rates and higher risk of emergency C-sections among those with BMI in this dataset.75%: Are below 29.9, but many are close to the obesity threshold.")
 
 
 with col2:
-    st.subheader("Age Distribution")
     counts = pd.crosstab(df['GDM_Status'], df['Age_Group'])
     fig2, ax2 = plt.subplots(figsize=(6, 4))
     counts.plot(kind='bar', ax=ax2)
@@ -59,9 +59,10 @@ with col2:
     ax2.legend(title='Age Group')
     plt.xticks(rotation=0)
     st.pyplot(fig2)
+    st.write("Those above 30 seem to be at a higher risk of GDM within our dataset, with 79% of those with GDM >30 years of age. So this is an important statistic to show")
+
 
 with col3:  
-    st.subheader("Avg Birth Weight")
 
     # Compute means
     gdm = df[df['GDM Diagonised'] == 'Yes']['BirthWeight'].mean()
@@ -92,7 +93,7 @@ with col3:
     plt.title("Avg Birth Weight by GDM Status")
 
     st.pyplot(fig)
-    st.caption(f"Overall Average: {overall:.2f} g")
+    st.write("Babies born to mothers with GDM tend to weigh slightly less on average than those without GDM — a 0.12 kg difference. This might reflect tighter glucose control, earlier delivery, or medical interventions.")
 
 st.title("Multivariate Analysis")
 
@@ -125,6 +126,7 @@ with col4:
     st.write(f"📊 **% with Elevated ALT (>35)**")
     st.write(f"- **Non-GDM:** {non_gdm_elevated:.2f}%")
     st.write(f"- **GDM:** {gdm_elevated:.2f}% (≈ {gdm_elevated/non_gdm_elevated:.1f}× higher than Non-GDM)" if non_gdm_elevated > 0 else "-")
+    st.write("Babies born to mothers with GDM tend to weigh slightly less on average than those without GDM — a 0.12 kg difference. This might reflect tighter glucose control, earlier delivery, or medical interventions.")
 
 with col5:
 
@@ -170,7 +172,8 @@ with col5:
                 f"{plot_data['Vaginal (%)'].iloc[i]}%", ha='center')
 
     st.pyplot(fig)
-
+    st.write("The Cesarean rate is notably higher among those diagnosed with GDM—47.3% vs 31.2%—suggesting that GDM may be associated with increased likelihood of Cesarean delivery. This could reflect medical decisions based on fetal or maternal risk factors tied to GDM (like macrosomia or labor complications).")
+    
 with col6:
     # Step 1: Classify anemia
     def classify_anemia(hb_value):
@@ -222,6 +225,7 @@ with col6:
     plt.tight_layout()
 
     st.pyplot(fig)
+    st.write("The Caesarean rates were 33.3% for those with moderate anemia, 58.3% for mild anemia, and 46.6% for those with normal hemoglobin.These findings suggest that even mild reductions in hemoglobin, when combined with GDM, may significantly elevate the risk of Caesarean deliveries.")
 
 
     
